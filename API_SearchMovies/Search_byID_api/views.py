@@ -8,6 +8,12 @@ from API_SearchMovies.Search_byID_api import api_id  # Blueprint
 from API_SearchMovies.models import Movies
 
 
+headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+
+
 @api_id.route('/movies', methods=['GET', 'POST'])
 def search():
     """
@@ -33,7 +39,7 @@ def search():
             result = generate_dicts(movie)
             if not result:
                 return "CURRENTLY, NO DATA.."
-            return jsonify(result)
+            return jsonify(result, headers), 200
         except Exception as e:
             return "ID NOT FOUND" + str(e)
 
@@ -50,11 +56,11 @@ def search():
                 save_to_db(result[0])
                 if not result:
                     return "No Movie Found"
-                return jsonify(result)
+                return jsonify(result, headers), 200
             except Exception as e:
                 return "Movie Name Not Found" + str(e)
         result = generate_dicts(movie)
-        return jsonify(result)
+        return jsonify(result, headers), 200
 
     # SEARCH BY YEAR
     if year:
@@ -65,7 +71,7 @@ def search():
             result = generate_dicts(movie)
             if not result:
                 return "CURRENTLY, NO DATA.."
-            return jsonify(result)
+            return jsonify(result, headers), 200
         except Exception as e:
             return "YEAR NOT FOUND" + str(e)
 
@@ -78,7 +84,7 @@ def search():
             result = generate_dicts(movie)
             if not result:
                 return "CURRENTLY, NO DATA.."
-            return jsonify(result)
+            return jsonify(result, headers), 200
         except Exception as e:
             return "Wrong value entered or not found [Ratings:1 to 10]" + str(e)
 
@@ -91,7 +97,7 @@ def search():
             result = generate_dicts(movie)
             if not result:
                 return "CURRENTLY, NO DATA.."
-            return jsonify(result)
+            return jsonify(result, headers), 200
         except Exception as e:
             return "GENRE NOT FOUND" + str(e)
 
